@@ -157,8 +157,17 @@ if(!S)S={users:[],teams:[],tours:[],matches:[],invites:[],reports:[]};
 var local0=S.users.length+S.tours.length;
 
 function trow(m,id,sc,other){var cls=m.done?(sc>other?"w":"l"):"";return '<div class="tr '+cls+'"><span>'+esc(tn(id))+'</span><span>'+(m.done?sc:"")+'</span></div>'}
+var canSee=function(m){var t=tour(m.tId),x=myTeam();return V.adm||(t&&canManage(t))||(x&&(x.id===m.a||x.id===m.b))};
+function srvInfo(m){
+  if(!m.server||!canSee(m))return"";
+  var c="connect "+m.server+(m.pass?"; password "+m.pass:"");
+  return '<div class="hint" style="margin-top:6px">Сервер: <b>'+esc(m.server)+'</b>'+(m.pass?' · пароль: <b>'+esc(m.pass)+'</b>':'')+'<br>Команда для консоли CS2: <code>'+esc(c)+'</code></div>'}
+function srvForm(m){
+  return '<div class="row" style="margin-top:6px"><input data-srv="'+m.id+'" placeholder="IP:порт" value="'+esc(m.server||"")+'" style="flex:1;min-width:120px;padding:6px 8px" aria-label="Адрес сервера"><input data-pass="'+m.id+'" placeholder="Пароль" value="'+esc(m.pass||"")+'" style="width:110px;padding:6px 8px" aria-label="Пароль сервера"><button class="btn sm alt" data-act="srv" data-id="'+m.id+'" type="button">Сервер</button></div>'}
 function matchBox(m,edit){
   var h='<div class="m"><small>'+fmt(m.time)+'</small>'+trow(m,m.a,m.sa,m.sb)+trow(m,m.b,m.sb,m.sa);
+  if(!m.done)h+=srvInfo(m);
+  if(edit&&!m.done&&m.a&&m.b)h+=srvForm(m);
   if(edit&&!m.done&&m.a&&m.b)h+='<div class="row" style="margin-top:6px"><input class="num" type="number" min="0" data-sa="'+m.id+'" aria-label="Счёт 1"><input class="num" type="number" min="0" data-sb="'+m.id+'" aria-label="Счёт 2"><button class="btn sm" data-act="score" data-id="'+m.id+'" type="button">Сохранить</button></div>';
   return h+'</div>'}
 var canManage=function(t){return V.adm||(V.me&&t.organizer===V.me)};
@@ -167,7 +176,7 @@ function statusTag(t){return t.status==="live"?'<span class="tag live">Идёт<
 var wins=function(){var w={};S.matches.forEach(function(m){if(m.done){var id=m.sa>m.sb?m.a:m.b;w[id]=(w[id]||0)+1}});return w};
 
 function tCard(t){return '<div class="card"><div class="row">'+statusTag(t)+'</div><h3>'+esc(t.name)+'</h3><span class="pz2">'+rub(t.prize)+'</span><span class="muted">Старт '+fd(t.start)+' · команд '+t.teams.length+'/'+t.maxTeams+'</span><div class="row"><button class="btn sm" data-act="open" data-id="'+t.id+'" type="button">Открыть</button>'+(t.status==="registration"?'<button class="btn sm alt" data-act="join" data-id="'+t.id+'" type="button">Участвовать</button>':'')+'</div></div>'}
-function listM(arr,empty){return arr.length?'<div class="list">'+arr.map(function(m){var t=tour(m.tId);return '<div class="it"><span><b>'+esc(tn(m.a))+'</b> vs <b>'+esc(tn(m.b))+'</b><br><span class="hint">'+esc(t?t.name:"")+' · '+RN(t,m.round)+' · '+fmt(m.time)+'</span></span>'+(m.done?'<span class="sc">'+m.sa+' : '+m.sb+'</span>':'<span class="tag">Скоро</span>')+'</div>'}).join("")+'</div>':'<div class="empty">'+empty+'</div>'}
+function listM(arr,empty){return arr.length?'<div class="list">'+arr.map(function(m){var t=tour(m.tId);return '<div class="it"><span><b>'+esc(tn(m.a))+'</b> vs <b>'+esc(tn(m.b))+'</b><br><span class="hint">'+esc(t?t.name:"")+' · '+RN(t,m.round)+' · '+fmt(m.time)+'</span>'+(m.done?"":srvInfo(m))+'</span>'+(m.done?'<span class="sc">'+m.sa+' : '+m.sb+'</span>':'<span class="tag">Скоро</span>')+'</div>'}).join("")+'</div>':'<div class="empty">'+empty+'</div>'}
 
 function vHome(){
   var act=S.tours.filter(function(t){return t.status!=="finished"}),f=act.filter(function(t){return t.status==="live"})[0]||act[0];
@@ -293,6 +302,12 @@ document.addEventListener("click",function(ev){
   else if(a==="acc"||a==="accfor"){var i=S.invites.filter(function(x){return x.id===id})[0],tm=team(i.teamId);if(tm.members.indexOf(i.nick)<0)tm.members.push(i.nick);if(!user(i.nick))S.users.push({nick:i.nick,organizer:false,banned:false});i.status="accepted";toast(i.nick+" в команде «"+tm.name+"»");render()}
   else if(a==="dec"){S.invites.filter(function(x){return x.id===id})[0].status="declined";render()}
   else if(a==="start"){var t=tour(id);if(t.teams.length<t.maxTeams){toast("Нужно "+t.maxTeams+" команд, сейчас "+t.teams.length);return}startT(t);V.view="tour";V.tid=id;V.tab="bracket";toast("Турнир начался, сетка создана");render()}
+  else if(a==="srv"){
+    var m3=S.matches.filter(function(x){return x.id===id})[0],t3=m3&&tour(m3.tId);if(!t3||!canManage(t3))return;
+    var sv=document.querySelector('[data-srv="'+id+'"]').value.trim(),pw=document.querySelector('[data-pass="'+id+'"]').value.trim();
+    if(!/^[A-Za-z0-9.\-]{3,60}(:\d{1,5})?$/.test(sv)){toast("Адрес в формате IP:порт, например 203.0.113.5:27015");return}
+    if(!/^[A-Za-z0-9_.\-]{0,30}$/.test(pw)){toast("Пароль: до 30 символов, латиница, цифры, _ . -");return}
+    m3.server=sv;m3.pass=pw;toast("Сервер для матча сохранён");render()}
   else if(a==="score"){var m=S.matches.filter(function(x){return x.id===id})[0],ea=document.querySelector('[data-sa="'+id+'"]'),eb=document.querySelector('[data-sb="'+id+'"]'),sa=parseInt(ea.value,10),sb=parseInt(eb.value,10);
     if(isNaN(sa)||isNaN(sb)||sa<0||sb<0||sa===sb){toast("Укажи счёт без ничьей");return}setRes(m,sa,sb);toast("Результат сохранён");render()}
   else if(a==="org"){var u=user(id);u.organizer=!u.organizer;render()}
