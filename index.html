@@ -97,6 +97,27 @@ textarea{min-height:110px}
 .vbadge{display:inline-flex;vertical-align:-3px;margin:-4px 0 -4px 3px;padding:4px;background:none;border:0;cursor:pointer;line-height:0;border-radius:8px;color:inherit}
 span.vbadge{cursor:default;padding:0;margin:0 0 0 4px}
 button.vbadge:hover,button.vbadge:focus-visible{background:var(--p2)}
+.tm{--ink:#fff}
+.tmban{border-radius:16px;aspect-ratio:4/1;min-height:110px;background-size:cover;background-position:center;border:1px solid var(--line)}
+.tmban.def{background:repeating-linear-gradient(135deg,#ffffff0a 0 2px,transparent 2px 16px),linear-gradient(120deg,var(--tc2),#0d0714 55%,var(--tc))}
+.tmhead{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap;margin:-44px 16px 0;position:relative}
+.tmhead .vlogo{border:3px solid var(--bg);box-shadow:0 6px 20px #0008;background-color:var(--panel)}
+.tmtitle{flex:1;min-width:0}.tmtitle h1{font:italic 800 clamp(26px,5vw,42px)/1.05 var(--display);margin:0 0 6px;overflow-wrap:anywhere}
+.tmtag{background:var(--tc);color:var(--ink);font-weight:800;border-radius:8px;padding:2px 10px;font-size:14px}
+.tmcountry{font-size:14px;color:var(--muted)}
+.tmsw{width:16px;height:16px;border-radius:50%;border:2px solid var(--line);display:inline-block}
+.tmdesc{white-space:pre-wrap;overflow-wrap:anywhere;border-left:4px solid var(--tc);margin:16px 0}
+.tmstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin:16px 0}
+.tmroster{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.tmm{display:flex;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--tc2);border-radius:12px;padding:10px 12px}
+.tdbox{max-width:560px;max-height:92vh;overflow:auto}.tdsec{border-top:1px solid var(--line);padding:12px 0}
+@media (max-width:640px){.tmban{aspect-ratio:3/1;min-height:90px}.tmhead{margin:-36px 8px 0}.tmhead .vlogo{width:72px!important;height:72px!important;flex-basis:72px!important}}
+.avt{border-radius:50%;object-fit:cover;display:inline-block;vertical-align:middle;flex:0 0 auto;margin-right:6px}
+.avt.ph{display:inline-flex;align-items:center;justify-content:center;color:#fff;font-family:var(--display);font-weight:800}
+.avbox{max-width:460px;max-height:92vh;overflow:auto}
+.avrules{background:#1c0e12;border:1px solid #5a1b25;border-radius:12px;padding:12px 14px;margin:0 0 12px;font-size:14px;color:#f1e3e6}.avrules p{margin:6px 0 0}
+#avCanvas{display:block;width:100%;max-width:240px;aspect-ratio:1;border-radius:50%;box-shadow:0 0 0 3px var(--acc),0 0 0 6px #0006;touch-action:none;cursor:grab;margin:16px auto;background:#111}
+.sr{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 .awgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 .awc{position:relative;overflow:hidden;background:#1c1c1e;border:1px solid #2c2c2e;border-radius:22px;padding:14px 12px 16px;display:flex;flex-direction:column;align-items:center;gap:10px;color:#fff;font:inherit;cursor:pointer;transition:transform .2s,box-shadow .3s}
 .awc:hover{transform:translateY(-3px)}
@@ -146,6 +167,26 @@ button.vbadge:hover,button.vbadge:focus-visible{background:var(--p2)}
   <h2 id="s-t" style="margin-top:0">Секретный код</h2>
   <div class="f" data-form="secForm"><label>Введи код<input id="sIn" type="password" autocomplete="off" required></label>
   <div class="row"><button class="btn" type="button" data-act="submit" data-form="secForm">Открыть</button><button class="btn alt" type="button" data-close="secM">Отмена</button></div></div>
+</div></div>
+<div class="modal" id="tdM" role="dialog" aria-modal="true" aria-labelledby="td-t"><div class="box tdbox">
+<h2 id="td-t" style="margin-top:0">Оформление команды</h2>
+<div id="tdPrev" aria-label="Предпросмотр"></div>
+<div class="tdsec"><b>Логотип</b><div class="row" style="margin-top:6px"><button class="btn sm alt" data-act="tdlogopick" type="button">Загрузить / заменить</button><button class="btn sm alt" id="tdLogoDel" data-act="tdlogodel" type="button">Удалить</button></div><input id="tdLogoFile" class="sr" type="file" accept="image/jpeg,image/png,image/webp" tabindex="-1" aria-label="Файл логотипа"><span class="hint">JPG, PNG или WEBP до 5 МБ, от 64×64. Станет квадратным 128×128.</span></div>
+<div class="tdsec"><b>Баннер</b><div class="row" style="margin-top:6px"><button class="btn sm alt" data-act="tdbanpick" type="button">Загрузить / заменить</button><button class="btn sm alt" id="tdBanDel" data-act="tdbandel" type="button">Удалить</button></div><input id="tdBanFile" class="sr" type="file" accept="image/jpeg,image/png,image/webp" tabindex="-1" aria-label="Файл баннера"><span class="hint">JPG, PNG или WEBP до 5 МБ, от 320×80. Лучше широкое изображение (4:1), оно обрежется по центру.</span></div>
+<div class="tdsec"><b>Цвета</b><div class="row" style="margin-top:6px;gap:18px"><label class="row" style="display:flex;gap:8px">Основной <input id="tdColor" type="color" style="width:56px;height:40px;padding:2px"></label><label class="row" style="display:flex;gap:8px">Дополнительный <input id="tdColor2" type="color" style="width:56px;height:40px;padding:2px"></label></div></div>
+<div class="tdsec"><label>Описание <span class="hint" id="tdCnt">0 / 300</span><textarea id="tdDesc" maxlength="300" style="min-height:90px" placeholder="Расскажи о команде (только текст)"></textarea></label></div>
+<div class="tdsec"><label>Страна (необязательно)<select id="tdCountry"><option value="">— не указана —</option><option value="RU">Россия</option><option value="UA">Украина</option><option value="BY">Беларусь</option><option value="KZ">Казахстан</option><option value="UZ">Узбекистан</option><option value="KG">Киргизия</option><option value="AM">Армения</option><option value="AZ">Азербайджан</option><option value="GE">Грузия</option><option value="MD">Молдова</option><option value="LV">Латвия</option><option value="LT">Литва</option><option value="EE">Эстония</option><option value="PL">Польша</option><option value="CZ">Чехия</option><option value="SK">Словакия</option><option value="HU">Венгрия</option><option value="RO">Румыния</option><option value="BG">Болгария</option><option value="RS">Сербия</option><option value="HR">Хорватия</option><option value="SI">Словения</option><option value="BA">Босния и Герцеговина</option><option value="MK">Северная Македония</option><option value="AL">Албания</option><option value="GR">Греция</option><option value="TR">Турция</option><option value="DE">Германия</option><option value="AT">Австрия</option><option value="CH">Швейцария</option><option value="FR">Франция</option><option value="BE">Бельгия</option><option value="NL">Нидерланды</option><option value="GB">Великобритания</option><option value="IE">Ирландия</option><option value="ES">Испания</option><option value="PT">Португалия</option><option value="IT">Италия</option><option value="SE">Швеция</option><option value="NO">Норвегия</option><option value="DK">Дания</option><option value="FI">Финляндия</option><option value="US">США</option><option value="CA">Канада</option><option value="MX">Мексика</option><option value="BR">Бразилия</option><option value="AR">Аргентина</option><option value="CL">Чили</option><option value="AU">Австралия</option><option value="CN">Китай</option><option value="JP">Япония</option><option value="KR">Южная Корея</option><option value="MN">Монголия</option><option value="IN">Индия</option><option value="IL">Израиль</option><option value="ID">Индонезия</option><option value="MY">Малайзия</option><option value="PH">Филиппины</option><option value="TH">Таиланд</option><option value="VN">Вьетнам</option><option value="EG">Египет</option><option value="ZA">ЮАР</option></select></label></div>
+<div id="tdErr" class="vwarn" role="alert" hidden></div>
+<div class="row" style="margin-top:12px"><button class="btn" data-act="tdsave" type="button">Сохранить изменения</button><button class="btn alt" data-act="tdcancel" type="button">Отмена</button></div>
+</div></div>
+<div class="modal" id="avM" role="dialog" aria-modal="true" aria-labelledby="av-t"><div class="box avbox">
+<h2 id="av-t" style="margin-top:0">Изменить аватар</h2>
+<div class="avrules"><b>⚠️ Правила использования аватарок</b><p>Запрещено устанавливать аватарки, содержащие нецензурную лексику, порнографию, сцены насилия, экстремистскую символику, оскорбления, дискриминационные материалы или другой запрещённый контент.</p><p>Загружая аватарку, вы подтверждаете, что она соответствует правилам Arena Forge.</p><p>Администрация оставляет за собой право удалить неподходящую аватарку и ограничить возможность её изменения при нарушении правил.</p></div>
+<label class="row" style="display:flex;gap:10px;align-items:flex-start;font-weight:600"><input type="checkbox" id="avOk" style="width:auto;margin-top:4px"> Я ознакомился с правилами и обязуюсь их соблюдать</label>
+<div class="row" style="margin:12px 0"><button class="btn alt" id="avPick" data-act="avpick" type="button" disabled>Выбрать изображение</button><input id="avFile" class="sr" type="file" accept="image/jpeg,image/png,image/webp" tabindex="-1" aria-label="Файл изображения"></div>
+<div id="avErr" class="vwarn" role="alert" hidden></div>
+<div id="avStage" hidden><canvas id="avCanvas" width="240" height="240" aria-label="Предпросмотр аватара"></canvas><label>Масштаб<input id="avZoom" type="range" min="100" max="400" value="100"></label><span class="hint">Перетащи изображение, чтобы выбрать область. Аватар будет круглым.</span></div>
+<div class="row" style="margin-top:14px"><button class="btn" id="avSave" data-act="avsave" type="button" disabled>Сохранить</button><button class="btn alt" data-act="avcancel" type="button">Отмена</button><span id="avBusy" class="hint" hidden>⏳ Сохранение…</span></div>
 </div></div>
 <div class="modal" id="awdM" role="dialog" aria-modal="true" aria-label="Награда"><div class="box"><div id="awdBody"></div><div class="row" style="margin-top:14px"><button class="btn alt" data-close="awdM" type="button">Закрыть</button></div></div></div>
 <div class="modal" id="awsM" role="dialog" aria-modal="true" aria-labelledby="aws-t"><div class="box" style="max-width:520px"><h2 id="aws-t" style="margin-top:0">Настроить награды</h2><div id="awsBody"></div><div class="row" style="margin-top:14px"><button class="btn" data-close="awsM" type="button">Готово</button></div></div></div>
@@ -204,7 +245,7 @@ if(!S)S={users:[],teams:[],tours:[],matches:[],invites:[],reports:[],maps:[],vet
 var local0=S.users.length+S.tours.length;
 ["maps","vetos","vlog","verifs","vflog","awards","pawards","pshow","awlog"].forEach(function(k){S[k]=S[k]||[]});
 
-function trow(m,id,sc,other){var cls=m.done?(sc>other?"w":"l"):"";return '<div class="tr '+cls+'"><span>'+esc(tn(id))+'</span><span>'+(m.done?sc:"")+'</span></div>'}
+function trow(m,id,sc,other){var cls=m.done?(sc>other?"w":"l"):"";return '<div class="tr '+cls+'"><span>'+tmini(id)+esc(tn(id))+'</span><span>'+(m.done?sc:"")+'</span></div>'}
 var canSee=function(m){var t=tour(m.tId),x=myTeam();return V.adm||(t&&canManage(t))||(x&&(x.id===m.a||x.id===m.b))};
 function srvInfo(m){
   if(!m.server||!canSee(m))return"";
@@ -249,7 +290,7 @@ function vTour(){
   if(V.tab==="bracket"){
     if(t.status==="registration")body='<div class="empty">Сетка появится после старта турнира. Зарегистрировано команд: '+t.teams.length+' из '+t.maxTeams+'.</div>';
     else{body='<div class="br">';for(var r=0;r<R;r++){body+='<div class="col"><h4>'+RN(t,r)+'</h4><div class="ms">'+ms.filter(function(m){return m.round===r}).sort(function(a,b){return a.slot-b.slot}).map(function(m){return matchBox(m,canManage(t))}).join("")+'</div></div>'}body+='</div>';if(t.champion)body+='<h2>Чемпион: '+esc(tn(t.champion))+'</h2>'}}
-  else if(V.tab==="teams")body=t.teams.length?'<div class="grid">'+t.teams.map(function(id){var x=team(id);return '<div class="card"><h3>'+esc(x.name)+' <span class="muted">['+esc(x.tag)+']</span></h3><span class="hint">Капитан: '+esc(x.captain)+vb(x.captain)+'</span><span class="row">'+x.members.map(pl).join("")+'</span></div>'}).join("")+'</div>':'<div class="empty">Пока никто не зарегистрировался.</div>';
+  else if(V.tab==="teams")body=t.teams.length?'<div class="grid">'+t.teams.map(function(id){var x=team(id);return '<div class="card" style="border-top:3px solid '+tcol(x)+'"><h3 style="display:flex;align-items:center;gap:10px">'+tlg(x,32)+'<button class="lnk" data-act="tview" data-id="'+esc(x.id)+'" type="button" style="font-size:inherit">'+esc(x.name)+'</button> <span class="muted">['+esc(x.tag)+']</span></h3><span class="hint">Капитан: '+av(x.captain,18)+esc(x.captain)+vb(x.captain)+'</span><span class="row">'+x.members.map(pl).join("")+'</span></div>'}).join("")+'</div>':'<div class="empty">Пока никто не зарегистрировался.</div>';
   else if(V.tab==="sched")body=listM(ms.slice().sort(function(a,b){return a.time-b.time}),"Расписание появится после старта турнира.");
   else if(V.tab==="rules")body='<div class="card" style="white-space:pre-wrap">'+esc(t.rules)+'</div>';
   else{var w=wins(),ids=t.teams.slice().sort(function(a,b){return(w[b]||0)-(w[a]||0)});body='<table><thead><tr><th>Команда</th><th>Матчей</th><th>Победы</th></tr></thead><tbody>'+ids.map(function(id){var pl=ms.filter(function(m){return m.done&&(m.a===id||m.b===id)});var ww=pl.filter(function(m){return(m.sa>m.sb?m.a:m.b)===id}).length;return '<tr><td>'+esc(tn(id))+'</td><td>'+pl.length+'</td><td>'+ww+'</td></tr>'}).join("")+'</tbody></table>'}
@@ -259,13 +300,13 @@ function vTour(){
 function vCab(){
   var u=myUser();
   if(!u)return '<h2>Личный кабинет</h2><div class="empty">Войди или зарегистрируйся, чтобы создать команду и записаться на турнир.<br><br><button class="btn" data-act="reg" type="button">Зарегистрироваться</button> <button class="btn alt" data-act="login" type="button">Войти</button></div>';
-  var t=myTeam(),h='<h2>Личный кабинет</h2><div class="card"><h3>'+esc(u.nick)+vb(u.nick)+'</h3><span class="muted">Роль: игрок'+(u.organizer?', организатор':'')+'</span><div class="row"><button class="btn sm alt" data-act="player" data-id="'+esc(u.nick)+'" type="button">Мой профиль и награды</button></div></div>';
+  var t=myTeam(),h='<h2>Личный кабинет</h2><div class="card">'+av(u.nick,64)+'<h3>'+esc(u.nick)+vb(u.nick)+'</h3><span class="muted">Роль: игрок'+(u.organizer?', организатор':'')+'</span><div class="row"><button class="btn sm alt" data-act="player" data-id="'+esc(u.nick)+'" type="button">Мой профиль и награды</button><button class="btn sm alt" data-act="avopen" type="button">Изменить аватар</button></div></div>';
   var inc=S.invites.filter(function(i){return i.nick===V.me&&i.status==="pending"});
   if(inc.length)h+='<h2>Приглашения</h2><div class="list">'+inc.map(function(i){return '<div class="it"><span>Команда «'+esc(tn(i.teamId))+'»</span><span class="row"><button class="btn sm" data-act="acc" data-id="'+i.id+'" type="button">Принять</button><button class="btn sm alt" data-act="dec" data-id="'+i.id+'" type="button">Отклонить</button></span></div>'}).join("")+'</div>';
   if(!t)h+='<h2>Создать команду</h2><div class="f" data-form="teamForm"><label>Название<input id="tName" maxlength="24" required></label><label>Тег (2–4 символа)<input id="tTag" maxlength="4" minlength="2" required></label><button class="btn" type="button" data-act="submit" data-form="teamForm">Создать команду</button></div>';
   else{
     var cap=t.captain===V.me,pend=S.invites.filter(function(i){return i.teamId===t.id&&i.status==="pending"});
-    h+='<h2>Моя команда</h2><div class="card"><h3>'+esc(t.name)+' <span class="muted">['+esc(t.tag)+']</span></h3><span>Игроки ('+t.members.length+'): '+t.members.map(pl).join(" ")+'</span><span class="hint">Капитан: '+esc(t.captain)+vb(t.captain)+'</span></div>';
+    h+='<h2>Моя команда</h2><div class="card" style="border-top:3px solid '+tcol(t)+'"><h3 style="display:flex;align-items:center;gap:10px">'+tlg(t,36)+esc(t.name)+' <span class="muted">['+esc(t.tag)+']</span></h3><span>Игроки ('+t.members.length+'): '+t.members.map(pl).join(" ")+'</span><span class="hint">Капитан: '+av(t.captain,18)+esc(t.captain)+vb(t.captain)+'</span></div>';
     if(cap){h+=brandForm(t);h+='<h3 style="margin-top:16px">Пригласить игрока</h3><div class="f" data-form="invForm"><div class="row"><input id="iNick" placeholder="Ник игрока" maxlength="20" required style="flex:1"><button class="btn" type="button" data-act="submit" data-form="invForm">Пригласить</button></div></div>';
       if(pend.length)h+='<div class="list" style="margin-top:10px">'+pend.map(function(i){return '<div class="it"><span>Приглашён: '+esc(i.nick)+vb(i.nick)+' <span class="hint">(ожидает)</span></span><button class="btn sm alt" data-act="accfor" data-id="'+i.id+'" type="button">Принять за игрока (демо)</button></div>'}).join("")+'</div>'}
     var reg=S.tours.filter(function(x){return x.teams.indexOf(t.id)>-1});
@@ -390,9 +431,7 @@ function vetoTick(){
 
 /* оформление команд и карт */
 function tcol(t){if(t&&/^#[0-9a-f]{6}$/i.test(t.color||""))return t.color;var h=0,s=t?t.id:"x";for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))%360;return"hsl("+h+",65%,52%)"}
-function tlogo(t){
-  if(t&&/^https:\/\/\S+$/.test(t.logo||""))return'<img class="vlogo" src="'+esc(t.logo)+'" alt="" onerror="this.style.display=\'none\'">';
-  return'<span class="vlogo" style="background:'+tcol(t)+'">'+esc(t?t.tag:"?")+'</span>'}
+function tlogo(t){return tlg(t,48)}
 var ART={
 mirage:'<path d="M30 175V100a28 28 0 0 1 56 0v75zM104 175V84a36 36 0 0 1 72 0v91zM196 175V108a26 26 0 0 1 52 0v67z" fill="{g}"/><path d="M120 175V92a20 20 0 0 1 40 0v83z" fill="{d}"/><rect x="258" y="70" width="10" height="105" fill="{f}"/><path d="M256 70l7-16 7 16z" fill="{f}"/>',
 inferno:'<rect x="40" y="110" width="70" height="65" fill="{g}"/><path d="M34 110l41-34 41 34z" fill="{d}"/><rect x="150" y="50" width="34" height="125" fill="{f}"/><path d="M144 50l23-34 23 34z" fill="{d}"/><rect x="164" y="80" width="6" height="14" fill="{d}"/><rect x="210" y="120" width="60" height="55" fill="{g}"/><path d="M204 120l36-26 36 26z" fill="{d}"/>',
@@ -421,14 +460,6 @@ function vetoLine(m){
   var v=getV(m.id);if(!v)return"";
   if(v.status==="done"&&v.result)return'<br><span class="hint">Карты: '+v.result.map(function(r){return esc(r.n)}).join(" · ")+'</span>';
   if(v.status==="live"||v.status==="paused")return'<br><span class="tag live">Veto идёт</span>';return""}
-function brandForm(t){
-  return'<h3 style="margin-top:16px">Оформление команды</h3><div class="f" data-form="brandForm"><div class="row"><label>Цвет<input id="bCol" type="color" value="'+(/^#[0-9a-f]{6}$/i.test(t.color||"")?t.color:"#e5303f")+'" style="width:64px;padding:2px;height:42px"></label><label style="flex:1;min-width:180px">Логотип (ссылка https://…)<input id="bLogo" maxlength="300" value="'+esc(t.logo||"")+'" placeholder="необязательно"></label></div><button class="btn sm" type="button" data-act="submit" data-form="brandForm">Сохранить оформление</button></div>'}
-function saveBrand(){
-  var t=myTeam();if(!t||t.captain!==V.me){toast("Менять оформление может капитан");return}
-  var col=$("bCol").value,logo=$("bLogo").value.trim();
-  if(logo&&!/^https:\/\/\S+$/.test(logo)){toast("Ссылка на логотип должна начинаться с https://");return}
-  t.color=col;t.logo=logo;toast("Оформление команды сохранено");render()}
-
 /* страница Map Veto */
 function vVeto(){
   var m=mat(V.vid),t=m&&tour(m.tId);if(!m||!t)return'<div class="empty">Матч не найден.</div>';
@@ -686,17 +717,206 @@ document.addEventListener("change",function(ev){
     V.awImgData=d;var pv=$("aPrev");if(pv){pv.src=d;pv.style.visibility="visible"}};
     im.onerror=function(){toast("Не удалось прочитать изображение")};im.src=r.result};r.readAsDataURL(f)});
 
+/* ===== Аватары (единый источник: users[nick].avatar) ===== */
+function av(n,sz){
+  var u=n?user(n):null,d=u&&u.avatar;
+  if(d&&d.length<60000&&/^data:image\/(webp|jpeg);base64,[A-Za-z0-9+\/=]+$/.test(d))return'<img class="avt" src="'+d+'" width="'+sz+'" height="'+sz+'" alt="">';
+  var h=0,s=String(n||"?");for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))%360;
+  return'<span class="avt ph" style="width:'+sz+'px;height:'+sz+'px;font-size:'+Math.round(sz*.44)+'px;background:hsl('+h+',55%,36%)" aria-hidden="true">'+esc(s.charAt(0).toUpperCase())+'</span>'}
+function avAdminBtns(n,inline){
+  var u=user(n);if(!V.adm||!u)return"";
+  return(inline?"":"<br>")+'<span class="row" style="margin-top:6px">'+(u.avatar?'<button class="btn sm alt" data-act="avdel" data-id="'+esc(n)+'" type="button">Удалить аватар</button>':"")+'<button class="btn sm alt" data-act="avblock" data-id="'+esc(n)+'" type="button">'+(u.avBlocked?"Разрешить смену":"Запретить смену")+'</button></span>'}
+function avActions(n){
+  var h="",u=user(n);if(!u)return"";
+  if(myUser()&&V.me===n)h+=u.avBlocked?'<span class="hint">Администрация ограничила смену аватара.</span>':'<button class="btn sm alt" data-act="avopen" type="button">Изменить аватар</button>';
+  else if(myUser()&&u.avatar)h+='<button class="btn sm alt" data-act="avreport" data-id="'+esc(n)+'" type="button">Пожаловаться на аватар</button>';
+  if(V.adm)h+=avAdminBtns(n,true);
+  return h?'<div class="row" style="margin-top:8px">'+h+'</div>':""}
+function avReport(n){
+  if(!myUser()){requireAuth();return}
+  if(n===V.me||!user(n)||!user(n).avatar)return;
+  if(S.reports.some(function(r){return r.avOf===n&&r.from===V.me&&r.status==="open"})){toast("Жалоба на этот аватар уже отправлена");return}
+  S.reports.unshift({id:uid("r"),from:V.me,at:Date.now(),text:"Жалоба на аватар игрока "+n,status:"open",avOf:n});save();toast("Жалоба отправлена администрации")}
+async function avCheck(f){
+  if(!/^image\/(jpe?g|png|webp)$/.test(f.type))return"Поддерживаются только форматы JPG, JPEG, PNG и WEBP.";
+  if(f.size>5*1024*1024)return"Файл слишком большой: максимум 5 МБ.";
+  if(f.size<200)return"Файл пустой или повреждён.";
+  var h=new Uint8Array(await f.slice(0,12).arrayBuffer()),s4=String.fromCharCode(h[0],h[1],h[2],h[3]),s8=String.fromCharCode(h[8],h[9],h[10],h[11]);
+  var jpeg=h[0]===255&&h[1]===216&&h[2]===255,png=h[0]===137&&s4.slice(1)==="PNG",webp=s4==="RIFF"&&s8==="WEBP";
+  var ok=(/jpe?g$/.test(f.type)&&jpeg)||(f.type==="image/png"&&png)||(f.type==="image/webp"&&webp);
+  return ok?"":"Содержимое файла не похоже на изображение выбранного формата."}
+function avState(){
+  var ok=!!$("avOk").checked,busy=!!V.avBusy;
+  $("avPick").disabled=!ok||busy;$("avSave").disabled=!(ok&&V.av)||busy;$("avBusy").hidden=!busy}
+function avErr(m){var e=$("avErr");e.textContent=m||"";e.hidden=!m}
+function avClamp(){var s=V.av,w=s.img.width*s.zoom,h=s.img.height*s.zoom;s.ox=Math.min(0,Math.max(240-w,s.ox));s.oy=Math.min(0,Math.max(240-h,s.oy))}
+function avDraw(){var c=$("avCanvas"),x=c.getContext("2d"),s=V.av;x.fillStyle="#111";x.fillRect(0,0,240,240);if(!s)return;avClamp();x.drawImage(s.img,s.ox,s.oy,s.img.width*s.zoom,s.img.height*s.zoom)}
+function avOpen(){
+  var u=myUser();if(!u){requireAuth();return}
+  if(u.avBlocked){toast("Администрация ограничила вам смену аватара");return}
+  V.av=null;V.avBusy=false;$("avOk").checked=false;$("avFile").value="";$("avStage").hidden=true;$("avZoom").value=100;avErr("");avState();$("avM").className="modal open"}
+function avClose(){$("avM").className="modal";V.av=null;V.avBusy=false;$("avFile").value=""}
+async function avLoad(f){
+  avErr("");var e=await avCheck(f);if(e){avErr(e);$("avFile").value="";V.av=null;$("avStage").hidden=true;avState();return}
+  var url=URL.createObjectURL(f),im=new Image();
+  im.onload=function(){URL.revokeObjectURL(url);
+    if(im.width<64||im.height<64){avErr("Изображение слишком маленькое: минимум 64×64 пикселя.");return}
+    if(im.width*im.height>40e6){avErr("Слишком большое разрешение изображения.");return}
+    var min=Math.max(240/im.width,240/im.height);
+    V.av={img:im,min:min,zoom:min,ox:(240-im.width*min)/2,oy:(240-im.height*min)/2};
+    $("avZoom").value=100;$("avStage").hidden=false;avDraw();avState()};
+  im.onerror=function(){URL.revokeObjectURL(url);avErr("Файл не является изображением или повреждён.")};
+  im.src=url}
+function avSave(){
+  var u=myUser();if(!u||!V.av||!$("avOk").checked||V.avBusy)return;
+  if(u.avBlocked){toast("Администрация ограничила вам смену аватара");return}
+  var owner=u.nick;V.avBusy=true;avState();
+  setTimeout(function(){
+    try{
+      var o=document.createElement("canvas");o.width=o.height=128;var x=o.getContext("2d");x.imageSmoothingQuality="high";x.drawImage($("avCanvas"),0,0,240,240,0,0,128,128);
+      var d=o.toDataURL("image/webp",.85);if(d.indexOf("data:image/webp")!==0)d=o.toDataURL("image/jpeg",.88);
+      if(!/^data:image\/(webp|jpeg);base64,[A-Za-z0-9+\/=]+$/.test(d)||d.length>45000)throw 0;
+      var me=myUser();if(!me||me.nick!==owner||me.avBlocked)throw 1;
+      me.avatar=d;me.avatarAt=now();avClose();toast("Аватар сохранён");render()}
+    catch(e){V.avBusy=false;avState();avErr("Не удалось сохранить изображение. Попробуй другой файл.")}},30)}
+function avatarClick(a,id){
+  switch(a){
+  case"avopen":avOpen();return true;
+  case"avpick":if($("avOk").checked&&!V.avBusy)$("avFile").click();else toast("Сначала поставь галочку согласия с правилами");return true;
+  case"avsave":avSave();return true;
+  case"avcancel":avClose();return true;
+  case"avreport":avReport(id);return true;
+  case"avdel":if(!V.adm){toast("Нет прав");return true}var u=user(id);if(u&&u.avatar){delete u.avatar;delete u.avatarAt;save();toast("Аватар удалён");render()}return true;
+  case"avblock":if(!V.adm){toast("Нет прав");return true}var u2=user(id);if(u2){u2.avBlocked=!u2.avBlocked;save();toast(u2.avBlocked?"Смена аватара запрещена":"Смена аватара разрешена");render()}return true}
+  return false}
+var avDrag=null;
+document.addEventListener("change",function(ev){
+  if(ev.target.id==="avOk")avState();
+  else if(ev.target.id==="avFile"&&ev.target.files&&ev.target.files[0]){
+    if(!$("avOk").checked){avErr("Сначала поставь галочку согласия с правилами.");ev.target.value="";return}
+    avLoad(ev.target.files[0])}});
+document.addEventListener("input",function(ev){
+  if(ev.target.id!=="avZoom"||!V.av)return;var s=V.av,nz=s.min*ev.target.value/100;
+  s.ox=120-(120-s.ox)*nz/s.zoom;s.oy=120-(120-s.oy)*nz/s.zoom;s.zoom=nz;avDraw()});
+document.addEventListener("pointerdown",function(ev){
+  if(ev.target.id!=="avCanvas"||!V.av)return;avDrag={x:ev.clientX,y:ev.clientY,ox:V.av.ox,oy:V.av.oy};
+  try{ev.target.setPointerCapture(ev.pointerId)}catch(e){}ev.preventDefault()});
+document.addEventListener("pointermove",function(ev){
+  if(!avDrag||!V.av)return;var k=240/($("avCanvas").getBoundingClientRect().width||240);
+  V.av.ox=avDrag.ox+(ev.clientX-avDrag.x)*k;V.av.oy=avDrag.oy+(ev.clientY-avDrag.y)*k;avDraw()});
+["pointerup","pointercancel"].forEach(function(t){document.addEventListener(t,function(){avDrag=null})});
+
+/* ===== Оформление команд (логотип, баннер, цвета, описание, страна) ===== */
+var COUNTRIES=[["RU","Россия"],["UA","Украина"],["BY","Беларусь"],["KZ","Казахстан"],["UZ","Узбекистан"],["KG","Киргизия"],["AM","Армения"],["AZ","Азербайджан"],["GE","Грузия"],["MD","Молдова"],["LV","Латвия"],["LT","Литва"],["EE","Эстония"],["PL","Польша"],["CZ","Чехия"],["SK","Словакия"],["HU","Венгрия"],["RO","Румыния"],["BG","Болгария"],["RS","Сербия"],["HR","Хорватия"],["SI","Словения"],["BA","Босния и Герцеговина"],["MK","Северная Македония"],["AL","Албания"],["GR","Греция"],["TR","Турция"],["DE","Германия"],["AT","Австрия"],["CH","Швейцария"],["FR","Франция"],["BE","Бельгия"],["NL","Нидерланды"],["GB","Великобритания"],["IE","Ирландия"],["ES","Испания"],["PT","Португалия"],["IT","Италия"],["SE","Швеция"],["NO","Норвегия"],["DK","Дания"],["FI","Финляндия"],["US","США"],["CA","Канада"],["MX","Мексика"],["BR","Бразилия"],["AR","Аргентина"],["CL","Чили"],["AU","Австралия"],["CN","Китай"],["JP","Япония"],["KR","Южная Корея"],["MN","Монголия"],["IN","Индия"],["IL","Израиль"],["ID","Индонезия"],["MY","Малайзия"],["PH","Филиппины"],["TH","Таиланд"],["VN","Вьетнам"],["EG","Египет"],["ZA","ЮАР"]];
+var cname=function(c){var x=COUNTRIES.filter(function(y){return y[0]===c})[0];return x?x[1]:""};
+var flag=function(c){return String(c).toUpperCase().replace(/./g,function(ch){return String.fromCodePoint(127397+ch.charCodeAt(0))})};
+var okImg=function(d,max){return typeof d==="string"&&d.length<(max||60000)&&/^data:image\/(webp|jpeg);base64,[A-Za-z0-9+\/=]+$/.test(d)};
+var isHex=function(c){return/^#[0-9a-f]{6}$/i.test(c||"")};
+function hexOf(c){
+  if(isHex(c))return c;var m=/^hsl\((\d+),(\d+)%,(\d+)%\)$/.exec(c||"");if(!m)return"#e5303f";
+  var h=+m[1],s=+m[2]/100,l=+m[3]/100,a=s*Math.min(l,1-l),f=function(n){var k=(n+h/30)%12,v=l-a*Math.max(-1,Math.min(k-3,9-k,1));return("0"+Math.round(255*v).toString(16)).slice(-2)};
+  return"#"+f(0)+f(8)+f(4)}
+function tcol2(t){if(t&&isHex(t.color2))return t.color2;var h=0,s=t?t.id:"x";for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))%360;return"hsl("+((h+40)%360)+",45%,28%)"}
+function ink(c){if(!isHex(c))return"#fff";var n=parseInt(c.slice(1),16),l=(0.299*(n>>16&255)+0.587*(n>>8&255)+0.114*(n&255))/255;return l>0.6?"#111":"#fff"}
+function teamLogoSrc(t){if(!t)return"";if(okImg(t.logoData,20000))return t.logoData;if(/^https:\/\/\S+$/.test(t.logo||""))return t.logo;return""}
+function tlg(t,sz){
+  var src=teamLogoSrc(t),st='width:'+sz+'px;height:'+sz+'px;flex:0 0 '+sz+'px;border-radius:'+Math.round(sz*.25)+'px';
+  if(src)return'<img class="vlogo" style="'+st+'" src="'+esc(src)+'" alt="" onerror="this.style.display=\'none\'">';
+  return'<span class="vlogo" style="'+st+';background:'+tcol(t)+';color:'+ink(tcol(t))+';font-size:'+Math.max(9,Math.round(sz*.3))+'px">'+esc(t?t.tag:"?")+'</span>'}
+var plnk=function(n){return'<button class="lnk" data-act="player" data-id="'+esc(n)+'" type="button">'+esc(n)+'</button>'+vb(n)};
+var tmini=function(id){var t=id?team(id):null;return t?tlg(t,18)+" ":""};
+var canEditTeam=function(t){return!!t&&(!!V.adm||(!!myUser()&&t.captain===V.me))};
+function teamStats(id){
+  var all=S.matches.filter(function(m){return m.a===id||m.b===id}),ms=all.filter(function(m){return m.done}),w=ms.filter(function(m){return(m.sa>m.sb?m.a:m.b)===id}).length;
+  return{played:ms.length,wins:w,losses:ms.length-w,tours:S.tours.filter(function(t){return t.teams.indexOf(id)>-1}),titles:S.tours.filter(function(t){return t.champion===id}).length,matches:all.sort(function(a,b){return b.time-a.time})}}
+function brandForm(t){
+  return'<h3 style="margin-top:16px">Оформление команды</h3><p class="hint" style="margin:0 0 8px">Логотип, баннер, цвета, описание и страна. Тег команды не меняется.</p><div class="row"><button class="btn sm" data-act="tdopen" data-id="'+esc(t.id)+'" type="button">Оформление команды</button><button class="btn sm alt" data-act="tview" data-id="'+esc(t.id)+'" type="button">Страница команды</button></div>'}
+function vTeam(){
+  var t=team(V.tmid);if(!t)return'<div class="empty">Команда не найдена.</div>';
+  var st=teamStats(t.id),c1=tcol(t),c2=tcol2(t),ban=okImg(t.banner,60000)?t.banner:"";
+  var stat=function(n,l){return'<div class="card" style="text-align:center"><span class="pz2">'+n+'</span><span class="hint">'+l+'</span></div>'};
+  var h='<div class="tm" style="--tc:'+c1+';--tc2:'+c2+';--ink:'+ink(c1)+'"><button class="btn alt sm" data-go="tours" type="button" style="margin:14px 0 10px">← Турниры</button>';
+  h+='<div class="tmban'+(ban?'':' def')+'"'+(ban?' style="background-image:linear-gradient(180deg,#0000 45%,#000b),url('+ban+')"':'')+' role="img" aria-label="Баннер команды"></div>';
+  h+='<div class="tmhead">'+tlg(t,96)+'<div class="tmtitle"><h1>'+esc(t.name)+'</h1><div class="row"><span class="tmtag">'+esc(t.tag)+'</span>'+(t.country&&cname(t.country)?'<span class="tmcountry">'+flag(t.country)+' '+esc(cname(t.country))+'</span>':'')+'<span class="tmsw" title="Основной цвет" style="background:'+c1+'"></span><span class="tmsw" title="Дополнительный цвет" style="background:'+c2+'"></span></div></div>'+(canEditTeam(t)?'<div class="tmact"><button class="btn sm" data-act="tdopen" data-id="'+esc(t.id)+'" type="button">Оформление команды</button></div>':'')+'</div>';
+  if(t.desc)h+='<div class="card tmdesc">'+esc(String(t.desc).slice(0,300))+'</div>';
+  h+='<div class="tmstats">'+stat(st.played,"матчей")+stat(st.wins,"побед")+stat(st.losses,"поражений")+stat(st.tours.length,"турниров")+stat(st.titles,"титулов")+'</div>';
+  h+='<h2>Состав</h2><div class="tmroster">'+t.members.map(function(n){var u=user(n),i=u?idx(u):null;return'<div class="tmm">'+av(n,44)+'<div>'+plnk(n)+'<br><span class="hint">'+(n===t.captain?'Капитан':'Игрок')+(i!==null&&i!==undefined?' · индекс '+i:'')+'</span></div></div>'}).join("")+'</div>';
+  h+='<h2>Турниры</h2>'+(st.tours.length?'<div class="list">'+st.tours.map(function(x){return'<div class="it"><span>'+esc(x.name)+' <span class="hint">'+rub(x.prize)+'</span></span><span class="row">'+statusTag(x)+'<button class="btn sm alt" data-act="open" data-id="'+esc(x.id)+'" type="button">Открыть</button></span></div>'}).join("")+'</div>':'<div class="empty">Команда ещё не участвовала в турнирах.</div>');
+  h+='<h2>Матчи</h2>'+listM(st.matches.slice(0,10),"Матчей пока нет.");
+  return h+'</div>'}
+/* редактор оформления: черновик V.td не затрагивает данные, пока не нажато «Сохранить» */
+function tdErr(m){var e=$("tdErr");e.textContent=m||"";e.hidden=!m}
+function tdPreview(){
+  var d=V.td,t=d&&team(d.id);if(!t)return;
+  var ban=d.banner===null?(okImg(t.banner,60000)?t.banner:""):d.banner;
+  var fake=Object.assign({},t,{color:d.color,color2:d.color2,logoData:d.logo===null?t.logoData:d.logo,logo:d.logo===null?t.logo:""});
+  $("tdPrev").innerHTML='<div class="tm" style="--tc:'+d.color+';--tc2:'+d.color2+';--ink:'+ink(d.color)+'"><div class="tmban'+(ban?'':' def')+'"'+(ban?' style="background-image:linear-gradient(180deg,#0000 45%,#000b),url('+ban+')"':'')+'></div><div class="tmhead" style="margin-top:-30px">'+tlg(fake,64)+'<div class="tmtitle"><b style="font-size:20px">'+esc(t.name)+'</b><div class="row"><span class="tmtag">'+esc(t.tag)+'</span>'+(d.country&&cname(d.country)?'<span class="tmcountry">'+flag(d.country)+' '+esc(cname(d.country))+'</span>':'')+'</div></div></div></div>';
+  $("tdLogoDel").disabled=!teamLogoSrc(fake);$("tdBanDel").disabled=!ban;$("tdCnt").textContent=(d.desc||"").length+" / 300"}
+function tdOpen(id){
+  var t=team(id);if(!canEditTeam(t)){toast("Менять оформление может только капитан команды");return}
+  V.td={id:t.id,color:hexOf(isHex(t.color)?t.color:tcol(t)),color2:hexOf(tcol2(t)),desc:String(t.desc||"").slice(0,300),country:cname(t.country)?t.country:"",logo:null,banner:null};
+  $("tdColor").value=V.td.color;$("tdColor2").value=V.td.color2;$("tdDesc").value=V.td.desc;$("tdCountry").value=V.td.country;
+  $("tdLogoFile").value="";$("tdBanFile").value="";tdErr("");tdPreview();$("tdM").className="modal open"}
+function tdClose(){$("tdM").className="modal";V.td=null}
+async function tdPick(kind,f){
+  if(!V.td)return;tdErr("");var e=await avCheck(f);if(e){tdErr(e);return}
+  var url=URL.createObjectURL(f),im=new Image(),logo=kind==="logo";
+  im.onload=function(){URL.revokeObjectURL(url);
+    if(im.width<(logo?64:320)||im.height<(logo?64:80)){tdErr(logo?"Логотип слишком маленький: минимум 64×64 пикселя.":"Баннер слишком маленький: минимум 320×80 пикселей.");return}
+    if(im.width*im.height>40e6){tdErr("Слишком большое разрешение изображения.");return}
+    var W=logo?128:960,H=logo?128:240,c=document.createElement("canvas");c.width=W;c.height=H;var x=c.getContext("2d");x.imageSmoothingQuality="high";
+    var s=Math.max(W/im.width,H/im.height),w=im.width*s,h=im.height*s;x.drawImage(im,(W-w)/2,(H-h)/2,w,h);
+    var out=null,qs=logo?[.85,.7]:[.75,.6,.5];
+    for(var i=0;i<qs.length&&!out;i++){var d=c.toDataURL("image/webp",qs[i]);if(d.indexOf("data:image/webp")!==0)d=c.toDataURL("image/jpeg",qs[i]);if(okImg(d,logo?20000:45000))out=d}
+    if(!out){tdErr("Изображение слишком сложное после сжатия. Выбери другое.");return}
+    if(!V.td)return;V.td[kind]=out;tdPreview()};
+  im.onerror=function(){URL.revokeObjectURL(url);tdErr("Файл не является изображением или повреждён.")};
+  im.src=url}
+function tdSave(){
+  var d=V.td,t=d&&team(d.id);if(!t||!canEditTeam(t)){toast("Нет прав на изменение оформления");return}
+  var desc=String(d.desc||"").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g,"").trim();
+  if(!isHex(d.color)||!isHex(d.color2)){tdErr("Выбери корректные цвета.");return}
+  if(desc.length>300){tdErr("Описание не длиннее 300 символов.");return}
+  if(d.country&&!cname(d.country)){tdErr("Выбери страну из списка.");return}
+  if(d.logo!==null&&d.logo!==""&&!okImg(d.logo,20000)){tdErr("Логотип не удалось обработать.");return}
+  if(d.banner!==null&&d.banner!==""&&!okImg(d.banner,45000)){tdErr("Баннер не удалось обработать.");return}
+  t.color=d.color;t.color2=d.color2;t.desc=desc;t.country=d.country||"";
+  if(d.logo!==null){t.logoData=d.logo;t.logo=""}
+  if(d.banner!==null)t.banner=d.banner;
+  t.designAt=now();V.td=null;$("tdM").className="modal";toast("Оформление команды сохранено");render()}
+function teamClick(a,id){
+  switch(a){
+  case"tview":if(team(id)){V.view="team";V.tmid=id;render();scrollTo(0,0)}return true;
+  case"tdopen":tdOpen(id);return true;
+  case"tdsave":tdSave();return true;
+  case"tdcancel":tdClose();return true;
+  case"tdlogopick":if(V.td)$("tdLogoFile").click();return true;
+  case"tdbanpick":if(V.td)$("tdBanFile").click();return true;
+  case"tdlogodel":if(V.td){V.td.logo="";tdPreview()}return true;
+  case"tdbandel":if(V.td){V.td.banner="";tdPreview()}return true}
+  return false}
+document.addEventListener("change",function(ev){
+  var i=ev.target.id;if(!V.td)return;
+  if(i==="tdLogoFile"&&ev.target.files&&ev.target.files[0]){tdPick("logo",ev.target.files[0]);}
+  else if(i==="tdBanFile"&&ev.target.files&&ev.target.files[0]){tdPick("banner",ev.target.files[0]);}
+  else if(i==="tdCountry"){V.td.country=ev.target.value;tdPreview()}});
+document.addEventListener("input",function(ev){
+  var i=ev.target.id;if(!V.td)return;
+  if(i==="tdColor"){V.td.color=ev.target.value;tdPreview()}
+  else if(i==="tdColor2"){V.td.color2=ev.target.value;tdPreview()}
+  else if(i==="tdDesc"){V.td.desc=ev.target.value.slice(0,300);tdPreview()}});
+
 var STATS=[["firepower","Firepower"],["entrying","Entrying"],["trading","Trading"],["opening","Opening"],["clutching","Clutching"],["sniping","Sniping"],["utility","Utility"]];
-var pl=function(n){return '<button class="lnk" data-act="player" data-id="'+esc(n)+'" type="button">'+esc(n)+'</button>'+vb(n)};
+var pl=function(n){return av(n,22)+'<button class="lnk" data-act="player" data-id="'+esc(n)+'" type="button">'+esc(n)+'</button>'+vb(n)};
 var idx=function(u){if(!u.stats)return null;var v=STATS.map(function(k){return u.stats[k[0]]||0});return Math.round(v.reduce(function(a,b){return a+b},0)/v.length)};
 var teamOf=function(n){return S.teams.filter(function(x){return x.members.indexOf(n)>-1})[0]};
 function vPlayers(){
-  return '<h2>Игроки</h2><div class="row" style="margin-bottom:12px"><input id="pFilter" placeholder="Поиск по нику" style="max-width:320px" autocomplete="off"></div><div class="grid">'+S.users.map(function(u){var t=teamOf(u.nick),i=idx(u);return '<button class="card pcard" data-act="player" data-id="'+esc(u.nick)+'" type="button" style="text-align:left;color:inherit;font:inherit;cursor:pointer"><h3>'+esc(u.nick)+vb(u.nick,true)+'</h3><span class="muted">'+(t?esc(t.name):"Без команды")+'</span>'+awMini(u.nick)+'<span class="pz2">'+(i===null?"—":i)+'</span></button>'}).join("")+'</div>'}
+  return '<h2>Игроки</h2><div class="row" style="margin-bottom:12px"><input id="pFilter" placeholder="Поиск по нику" style="max-width:320px" autocomplete="off"></div><div class="grid">'+S.users.map(function(u){var t=teamOf(u.nick),i=idx(u);return '<button class="card pcard" data-act="player" data-id="'+esc(u.nick)+'" type="button" style="text-align:left;color:inherit;font:inherit;cursor:pointer"><h3 style="display:flex;align-items:center;gap:8px">'+av(u.nick,36)+esc(u.nick)+vb(u.nick,true)+'</h3><span class="muted">'+(t?esc(t.name):"Без команды")+'</span>'+awMini(u.nick)+'<span class="pz2">'+(i===null?"—":i)+'</span></button>'}).join("")+'</div>'}
 function vPlayer(){
   var u=user(V.pid);if(!u)return '<div class="empty">Игрок не найден.</div>';
   var t=teamOf(u.nick),i=idx(u);
   var bars=u.stats?STATS.map(function(k){var n=u.stats[k[0]]||0;return '<div class="bar"><span>'+k[1]+'</span><div class="track"><i style="width:'+n+'%"></i></div><b>'+n+'</b></div>'}).join(""):"";
-  return '<button class="btn alt sm" data-go="players" type="button" style="margin-top:14px">Все игроки</button><h1 style="font:italic 800 clamp(28px,5vw,46px)/1 var(--display);margin:12px 0 6px">'+esc(u.nick)+vb(u.nick,false,true)+'</h1><div class="row"><span class="muted">'+(t?'Команда: '+esc(t.name)+' ['+esc(t.tag)+']':'Без команды')+'</span>'+(u.organizer?'<span class="tag">Организатор</span>':'')+'</div>'+
+  return '<button class="btn alt sm" data-go="players" type="button" style="margin-top:14px">Все игроки</button><div class="row" style="flex-wrap:nowrap;gap:16px;margin:12px 0 6px">'+av(u.nick,88)+'<div><h1 style="font:italic 800 clamp(28px,5vw,46px)/1 var(--display);margin:0">'+esc(u.nick)+vb(u.nick,false,true)+'</h1>'+avActions(u.nick)+'</div></div><div class="row"><span class="muted">'+(t?'Команда: '+tlg(t,22)+' <button class="lnk" data-act="tview" data-id="'+esc(t.id)+'" type="button">'+esc(t.name)+'</button> ['+esc(t.tag)+']':'Без команды')+'</span>'+(u.organizer?'<span class="tag">Организатор</span>':'')+'</div>'+
   (u.stats?'<div class="card" style="margin-top:14px;max-width:640px"><div class="row" style="justify-content:space-between"><h3>Профиль игрока</h3><span class="pz2" title="Среднее по показателям">'+i+'</span></div>'+bars+'<span class="hint">Показатели от 0 до 100 выставляет администратор.</span></div>':'<div class="empty" style="margin-top:14px">Статистику этого игрока администратор ещё не заполнил.</div>')+awardsBlock(u)}
 function saveStats(){
   var u=V.editNick?user(V.editNick):null;if(!u)return;var st={};
@@ -711,10 +931,10 @@ function vOrg(){
 function vAdmin(){
   if(!V.adm)return '<div class="empty">Раздел доступен по секретному коду.</div>';
   var tabs=[["users","Пользователи"],["stats","Статистика игроков"],["teams","Команды"],["veto","Map Veto"],["verif","Верификация"],["awards","Награды"],["tours","Турниры"],["res","Результаты"],["rep","Жалобы"],["data","Данные"]],b="";
-  if(V.atab==="users")b='<table><thead><tr><th>Ник</th><th>Организатор</th><th>Блокировка</th></tr></thead><tbody>'+S.users.map(function(u){return '<tr><td>'+esc(u.nick)+vb(u.nick,true)+'</td><td><button class="btn sm alt" data-act="org" data-id="'+esc(u.nick)+'" type="button">'+(u.organizer?"Снять":"Назначить")+'</button></td><td><button class="btn sm alt" data-act="ban" data-id="'+esc(u.nick)+'" type="button">'+(u.banned?"Разблокировать":"Заблокировать")+'</button></td></tr>'}).join("")+'</tbody></table>';
+  if(V.atab==="users")b='<table><thead><tr><th>Ник</th><th>Организатор</th><th>Блокировка</th></tr></thead><tbody>'+S.users.map(function(u){return '<tr><td>'+av(u.nick,24)+esc(u.nick)+vb(u.nick,true)+'</td><td><button class="btn sm alt" data-act="org" data-id="'+esc(u.nick)+'" type="button">'+(u.organizer?"Снять":"Назначить")+'</button></td><td><button class="btn sm alt" data-act="ban" data-id="'+esc(u.nick)+'" type="button">'+(u.banned?"Разблокировать":"Заблокировать")+'</button></td></tr>'}).join("")+'</tbody></table>';
   else if(V.atab==="tours")b=S.tours.length?'<div class="list">'+S.tours.map(function(t){return '<div class="it"><span>'+esc(t.name)+' <span class="hint">'+rub(t.prize)+'</span></span><span class="row">'+statusTag(t)+'<button class="btn sm alt" data-act="delt" data-id="'+t.id+'" type="button">Удалить</button></span></div>'}).join("")+'</div>':'<div class="empty">Турниров нет</div>';
   else if(V.atab==="res"){var ms=S.matches.filter(function(m){return m.a&&m.b}).sort(function(a,b){return a.time-b.time});b=ms.length?ms.map(function(m){return '<div class="card" style="margin-bottom:10px"><span class="hint">'+esc(tour(m.tId)?tour(m.tId).name:"")+'</span>'+matchBox(m,true)+(m.done?'<span class="hint">Результат внесён и сетка обновлена.</span>':'')+'</div>'}).join(""):'<div class="empty">Матчей нет</div>'}
-  else if(V.atab==="rep")b=S.reports.length?'<div class="list">'+S.reports.map(function(r){return '<div class="it"><span><b>'+esc(r.from)+'</b>'+vb(r.from)+'<br>'+esc(r.text)+'</span>'+(r.status==="open"?'<button class="btn sm" data-act="resolve" data-id="'+r.id+'" type="button">Закрыть</button>':'<span class="tag">Закрыта</span>')+'</div>'}).join("")+'</div>':'<div class="empty">Жалоб нет</div>';
+  else if(V.atab==="rep")b=S.reports.length?'<div class="list">'+S.reports.map(function(r){return '<div class="it"><span><b>'+esc(r.from)+'</b>'+vb(r.from)+'<br>'+esc(r.text)+(r.avOf?avAdminBtns(r.avOf):"")+'</span>'+(r.status==="open"?'<button class="btn sm" data-act="resolve" data-id="'+r.id+'" type="button">Закрыть</button>':'<span class="tag">Закрыта</span>')+'</div>'}).join("")+'</div>':'<div class="empty">Жалоб нет</div>';
   else if(V.atab==="awards")b=vAdminAwards();
   else if(V.atab==="verif")b=vAdminVerif();
   else if(V.atab==="veto")b=vAdminVeto();
@@ -729,8 +949,8 @@ function render(){
   if(V.me&&!user(V.me))V.me=null;
   var items=[["home","Главная"],["tours","Турниры"],["players","Игроки"],["cab","Кабинет"]];if(isOrg())items.push(["org","Организатор"]);if(V.adm)items.push(["admin","Админ"]);
   $("nav").innerHTML=items.map(function(x){return '<button data-go="'+x[0]+'" aria-current="'+(V.view===x[0]||(V.view==="tour"&&x[0]==="tours")||(V.view==="player"&&x[0]==="players"))+'">'+x[1]+'</button>'}).join("")+'<button data-act="secret" type="button">Секретный код</button>';
-  $("auth").innerHTML=V.me?'<span class="row"><b>'+esc(V.me)+'</b>'+vb(V.me)+'<button class="btn alt sm" data-act="logout" type="button">Выйти</button></span>':'<button class="btn sm" data-act="login" type="button">Войти</button>';
-  var f={home:vHome,tours:vTours,tour:vTour,players:vPlayers,player:vPlayer,veto:vVeto,cab:vCab,org:vOrg,admin:vAdmin}[V.view]||vHome;
+  $("auth").innerHTML=V.me?'<span class="row">'+av(V.me,30)+'<b>'+esc(V.me)+'</b>'+vb(V.me)+'<button class="btn alt sm" data-act="logout" type="button">Выйти</button></span>':'<button class="btn sm" data-act="login" type="button">Войти</button>';
+  var f={home:vHome,tours:vTours,tour:vTour,players:vPlayers,player:vPlayer,team:vTeam,veto:vVeto,cab:vCab,org:vOrg,admin:vAdmin}[V.view]||vHome;
   $("app").innerHTML=V.loading?'<div class="empty">Загрузка данных…</div>':f();save()}
 function go(v){V.view=v;render();scrollTo(0,0);if(v==="cab"&&!myUser())openReg("Для личного кабинета нужен аккаунт")}
 function joinT(id){
@@ -751,7 +971,7 @@ document.addEventListener("click",function(ev){
   if(d.tab){V.tab=d.tab;render();return}
   if(d.atab){V.atab=d.atab;render();return}
   var id=d.id,a=d.act;
-  if(vetoClick(a,id)||verifClick(a,id,d)||awardClick(a,id,d))return;
+  if(vetoClick(a,id)||verifClick(a,id,d)||awardClick(a,id,d)||avatarClick(a,id,d)||teamClick(a,id))return;
   if(a==="open"){V.view="tour";V.tid=id;V.tab="bracket";render();scrollTo(0,0)}
   else if(a==="join")joinT(id);
   else if(a==="login"){setMode("login");$("lNick").value="";$("loginM").className="modal open";setTimeout(function(){$("lNick").focus()},0)}
@@ -832,7 +1052,6 @@ function runForm(f){
   else if(f==="secForm"){secCheck()}
   else if(f==="statForm"){saveStats()}
   else if(f==="mapForm"){saveMap()}
-  else if(f==="brandForm"){saveBrand()}
   else if(f==="awForm"){saveAward()}
 }
 document.addEventListener("keydown",function(ev){
